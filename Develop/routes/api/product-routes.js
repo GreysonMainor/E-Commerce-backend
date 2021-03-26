@@ -20,8 +20,7 @@ router.get("/", (req, res) => {
     ]
   }).then(data => {
     return res.json(data);
-  })
-    .catch(err => {
+  }).catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
@@ -79,8 +78,9 @@ router.post("/", (req, res) => {
       }
       // if no product tags, just respond
       res.status(200).json(product);
-    }).then((productTagIds) => res.status(200).json(productTagIds))
-    .catch((err) => {
+    }).then((productTagIds) => {
+      return res.status(200).json(productTagIds);
+    }).catch((err) => {
       console.log(err);
       res.status(400).json(err);
     });
@@ -94,12 +94,10 @@ router.put("/:id", (req, res) => {
     where: {
       id: req.params.id,
     },
-  })
-    .then((product) => {
+  }).then((product) => {
       // find all associated tags from ProductTag
       return ProductTag.findAll({ where: { product_id: req.params.id } });
-    })
-    .then((productTags) => {
+    }).then((productTags) => {
       // get list of current tag_ids
       const productTagIds = productTags.map(({ tag_id }) => tag_id);
       // create filtered list of new tag_ids
@@ -121,9 +119,9 @@ router.put("/:id", (req, res) => {
         ProductTag.destroy({ where: { id: productTagsToRemove } }),
         ProductTag.bulkCreate(newProductTags),
       ]);
-    })
-    .then((updatedProductTags) => res.json(updatedProductTags))
-    .catch((err) => {
+    }).then((updatedProductTags) => {
+      return res.json(updatedProductTags);
+    }).catch((err) => {
       // console.log(err);
       res.status(400).json(err);
     });
