@@ -35,12 +35,12 @@ router.get("/:id", (req, res) => {
       attributes: ["id", "product_name", "price", "stock", "category_id"]
     }
   }).then(data => {
-    if(!data) {
-      res.status(404).json({message: "Category not found!"});
+    if (!data) {
+      res.status(404).json({ message: "Category not found!" });
       return;
     }
     res.json(data);
-  }).catch(err =>{
+  }).catch(err => {
     console.log(err);
     res.status(500).json(err)
   });
@@ -61,12 +61,12 @@ router.post("/", (req, res) => {
 router.put("/:id", (req, res) => {
   // update a category by its `id` value
   Category.update(req.body, {
-    where:{
+    where: {
       id: req.params.id
     }
   }).then(data => {
-    if(!data[0]){
-      res.status(404).json({ message: "No category found with this id"});
+    if (!data[0]) {
+      res.status(404).json({ message: "No category found with this ID." });
       return;
     }
     res.json(data)
@@ -83,8 +83,8 @@ router.delete("/:id", (req, res) => {
       id: req.params.id
     }
   }).then(data => {
-    if(!data) {
-      res.status(404).json({ message: "No category found with this id"});
+    if (!data) {
+      res.status(404).json({ message: "No category found with this ID." });
       return;
     }
     res.json(data);
